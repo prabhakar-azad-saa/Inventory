@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Layout } from "@/components/Layout";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -6,20 +6,32 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { getProducts, createProduct, addVariant, deleteProduct, deleteVariant, Product, Variant } from "@/lib/inventory";
-import { Plus, X, Download, QrCode } from "lucide-react";
+import { Plus, X, Download, QrCode, Printer, Trash2 } from "lucide-react";
 import JsBarcode from "jsbarcode";
-import { useRef } from "react";
+
+interface SelectedItem {
+  productId: string;
+  variantId: string;
+  productName: string;
+  brand: string;
+  size: string;
+  color: string;
+  price: number;
+  barcode: string;
+  sku: string;
+}
 
 export default function Products() {
   const [products, setProducts] = useState<Product[]>([]);
   const [newProductOpen, setNewProductOpen] = useState(false);
   const [newVariantProductId, setNewVariantProductId] = useState<string | null>(null);
-  
+  const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set());
+
   // Form states
   const [productName, setProductName] = useState("");
   const [productBrand, setProductBrand] = useState("");
   const [productCategory, setProductCategory] = useState("");
-  
+
   const [variantSize, setVariantSize] = useState("");
   const [variantColor, setVariantColor] = useState("");
   const [variantPrice, setVariantPrice] = useState("");
@@ -51,6 +63,153 @@ export default function Products() {
 
   const refreshProducts = () => {
     setProducts(getProducts());
+  };
+
+  const toggleSelectItem = (productId: string, variantId: string) => {
+    const key = `${productId}-${variantId}`;
+    const newSelected = new Set(selectedItems);
+    if (newSelected.has(key)) {
+      newSelected.delete(key);
+    } else {
+      newSelected.add(key);
+    }
+    setSelectedItems(newSelected);
+  };
+
+  const toggleSelectAllProduct = (productId: string) => {
+    const product = products.find((p) => p.id === productId);
+    if (!product) return;
+
+    const newSelected = new Set(selectedItems);
+    const allSelected = product.variants.every((v) => newSelected.has(`${productId}-${v.id}`));
+
+    product.variants.forEach((variant) => {
+      const key = `${productId}-${variant.id}`;
+      if (allSelected) {
+        newSelected.delete(key);
+      } else {
+        newSelected.add(key);
+      }
+    });
+
+    setSelectedItems(newSelected);
+  };
+
+  const getSelectedItemsData = (): SelectedItem[] => {
+    const items: SelectedItem[] = [];
+    selectedItems.forEach((key) => {
+      const [productId, variantId] = key.split("-");
+      const product = products.find((p) => p.id === productId);
+      if (product) {
+        const variant = product.variants.find((v) => v.id === variantId);
+        if (variant) {
+          items.push({
+            productId,
+            variantId,
+            productName: product.name,
+            brand: product.brand,
+            size: variant.size,
+            color: variant.color,
+            price: variant.price,
+            barcode: variant.barcode,
+            sku: variant.sku,
+          });
+        }
+      }
+    });
+    return items;
+  };
+
+  const handlePrintSelected = () => {
+    const items = getSelectedItemsData();
+    if (items.length === 0) return;
+
+    const printWindow = window.open("", "_blank");
+    if (!printWindow) return;
+
+    let html = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Print Price Tags</title>
+        <style>
+          body { margin: 0; padding: 20px; font-family: Arial, sans-serif; }
+          .page { page-break-after: always; }
+          .tags-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+          .tag { 
+            width: 350px; 
+            border: 1px solid #ddd; 
+            padding: 15px; 
+            text-align: center;
+            page-break-inside: avoid;
+          }
+          .brand { font-size: 18px; font-weight: bold; margin-bottom: 8px; }
+          .product { font-size: 14px; font-weight: bold; margin-bottom: 8px; }
+          .details { font-size: 12px; margin-bottom: 10px; color: #666; }
+          .barcode { margin: 10px 0; text-align: center; }
+          .barcode svg { max-width: 100%; height: 40px; }
+          .price { font-size: 28px; font-weight: bold; color: #e74c3c; margin: 10px 0; }
+          .sku { font-size: 10px; color: #999; margin-top: 8px; }
+          @media print { 
+            body { padding: 0; }
+            .tags-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .tag { page-break-inside: avoid; }
+          }
+        </style>
+      </head>
+      <body>
+        <div class="tags-grid">
+    `;
+
+    items.forEach((item, index) => {
+      html += `
+        <div class="tag">
+          <div class="brand">${item.brand}</div>
+          <div class="product">${item.productName}</div>
+          <div class="details">
+            Size: ${item.size} | Color: ${item.color}
+          </div>
+          <div class="barcode">
+            <svg id="barcode-${index}"></svg>
+          </div>
+          <div class="price">₹${item.price.toFixed(2)}</div>
+          <div class="sku">SKU: ${item.sku}</div>
+        </div>
+      `;
+    });
+
+    html += `
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"><\/script>
+        <script>
+          const items = ${JSON.stringify(items)};
+          items.forEach((item, index) => {
+            const svg = document.getElementById('barcode-' + index);
+            if (svg) {
+              JsBarcode(svg, item.barcode, { format: "CODE128", width: 2, height: 40 });
+            }
+          });
+          setTimeout(() => window.print(), 500);
+        <\/script>
+      </body>
+      </html>
+    `;
+
+    printWindow.document.write(html);
+    printWindow.document.close();
+  };
+
+  const handleDeleteSelected = () => {
+    if (!window.confirm(`Delete ${selectedItems.size} selected items?`)) return;
+
+    selectedItems.forEach((key) => {
+      const [productId, variantId] = key.split("-");
+      deleteVariant(productId, variantId);
+    });
+
+    setSelectedItems(new Set());
+    refreshProducts();
+    window.dispatchEvent(new Event("inventoryUpdated"));
   };
 
   const handleCreateProduct = () => {
@@ -95,7 +254,6 @@ export default function Products() {
   };
 
   const handleGeneratePriceTag = (product: Product, variant: Variant) => {
-    // Generate printable price tag as PDF
     const printWindow = window.open("", "_blank");
     if (!printWindow) return;
 
@@ -129,11 +287,11 @@ export default function Products() {
           <div class="price">₹${variant.price.toFixed(2)}</div>
           <div class="sku">SKU: ${variant.sku}</div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"><\/script>
         <script>
           JsBarcode("#barcode", "${variant.barcode}", { format: "CODE128", width: 2, height: 50 });
           window.print();
-        </script>
+        <\/script>
       </body>
       </html>
     `;
@@ -155,59 +313,79 @@ export default function Products() {
             <h2 className="text-3xl font-bold text-foreground">Products</h2>
             <p className="text-muted-foreground mt-1">Manage your inventory and create variants</p>
           </div>
-          <Dialog open={newProductOpen} onOpenChange={setNewProductOpen}>
-            <DialogTrigger asChild>
-              <Button className="bg-primary hover:bg-primary/90 text-white gap-2">
-                <Plus className="w-4 h-4" />
-                New Product
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Create New Product</DialogTitle>
-              </DialogHeader>
-              <div className="space-y-4">
-                <div>
-                  <label className="text-sm font-medium text-foreground mb-1 block">Product Name</label>
-                  <Input
-                    placeholder="e.g., Denim Jeans"
-                    value={productName}
-                    onChange={(e) => setProductName(e.target.value)}
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-foreground mb-1 block">Brand</label>
-                  <Input
-                    placeholder="e.g., Azure"
-                    value={productBrand}
-                    onChange={(e) => setProductBrand(e.target.value)}
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-foreground mb-1 block">Category</label>
-                  <Select value={productCategory} onValueChange={setProductCategory}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {categories.map((cat) => (
-                        <SelectItem key={cat} value={cat}>
-                          {cat}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
+          <div className="flex gap-2">
+            {selectedItems.size > 0 && (
+              <>
                 <Button
-                  onClick={handleCreateProduct}
-                  className="w-full bg-primary hover:bg-primary/90 text-white"
-                  disabled={!productName || !productBrand || !productCategory}
+                  onClick={handlePrintSelected}
+                  className="bg-blue-600 hover:bg-blue-700 text-white gap-2"
                 >
-                  Create Product
+                  <Printer className="w-4 h-4" />
+                  Print ({selectedItems.size})
                 </Button>
-              </div>
-            </DialogContent>
-          </Dialog>
+                <Button
+                  onClick={handleDeleteSelected}
+                  className="bg-destructive hover:bg-destructive/90 text-white gap-2"
+                >
+                  <Trash2 className="w-4 h-4" />
+                  Delete
+                </Button>
+              </>
+            )}
+            <Dialog open={newProductOpen} onOpenChange={setNewProductOpen}>
+              <DialogTrigger asChild>
+                <Button className="bg-primary hover:bg-primary/90 text-white gap-2">
+                  <Plus className="w-4 h-4" />
+                  New Product
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Create New Product</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4">
+                  <div>
+                    <label className="text-sm font-medium text-foreground mb-1 block">Product Name</label>
+                    <Input
+                      placeholder="e.g., Denim Jeans"
+                      value={productName}
+                      onChange={(e) => setProductName(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-foreground mb-1 block">Brand</label>
+                    <Input
+                      placeholder="e.g., Azure"
+                      value={productBrand}
+                      onChange={(e) => setProductBrand(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-foreground mb-1 block">Category</label>
+                    <Select value={productCategory} onValueChange={setProductCategory}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select category" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {categories.map((cat) => (
+                          <SelectItem key={cat} value={cat}>
+                            {cat}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <Button
+                    onClick={handleCreateProduct}
+                    className="w-full bg-primary hover:bg-primary/90 text-white"
+                    disabled={!productName || !productBrand || !productCategory}
+                  >
+                    Create Product
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
+          </div>
         </div>
 
         {/* Products List */}
@@ -325,6 +503,14 @@ export default function Products() {
                         <table className="w-full text-sm">
                           <thead>
                             <tr className="border-b border-border">
+                              <th className="text-left py-2 px-3 font-semibold text-foreground w-8">
+                                <input
+                                  type="checkbox"
+                                  checked={product.variants.length > 0 && product.variants.every((v) => selectedItems.has(`${product.id}-${v.id}`))}
+                                  onChange={() => toggleSelectAllProduct(product.id)}
+                                  className="rounded cursor-pointer"
+                                />
+                              </th>
                               <th className="text-left py-2 px-3 font-semibold text-foreground">Size</th>
                               <th className="text-left py-2 px-3 font-semibold text-foreground">Color</th>
                               <th className="text-left py-2 px-3 font-semibold text-foreground">SKU</th>
@@ -337,6 +523,14 @@ export default function Products() {
                           <tbody>
                             {product.variants.map((variant) => (
                               <tr key={variant.id} className="border-b border-border hover:bg-secondary/30">
+                                <td className="py-3 px-3 w-8">
+                                  <input
+                                    type="checkbox"
+                                    checked={selectedItems.has(`${product.id}-${variant.id}`)}
+                                    onChange={() => toggleSelectItem(product.id, variant.id)}
+                                    className="rounded cursor-pointer"
+                                  />
+                                </td>
                                 <td className="py-3 px-3 font-medium text-foreground">{variant.size}</td>
                                 <td className="py-3 px-3 text-muted-foreground">{variant.color}</td>
                                 <td className="py-3 px-3 font-mono text-sm text-foreground">{variant.sku}</td>
