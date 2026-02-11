@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { useAuth } from "@/App";
+import { useAuth } from "@/lib/auth-context";
 import { Button } from "@/components/ui/button";
 import { Menu, LogOut, BarChart3, Package } from "lucide-react";
 import { useState } from "react";

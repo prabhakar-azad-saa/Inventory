@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
-import { useAuth } from "@/App";
+import { useAuth } from "@/lib/auth-context";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
