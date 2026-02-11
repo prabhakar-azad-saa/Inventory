@@ -10,3 +10,28 @@
 export interface DemoResponse {
   message: string;
 }
+
+/**
+ * Variant type for products
+ */
+export interface Variant {
+  id: string;
+  size: string;
+  color: string;
+  price: number;
+  stock: number;
+  sku: string;
+  barcode: string;
+}
+
+/**
+ * Product type for inventory
+ */
+export interface Product {
+  id: string;
+  name: string;
+  brand: string;
+  category: string;
+  variants: Variant[];
+  createdAt: string;
+}
