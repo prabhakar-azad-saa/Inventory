@@ -136,82 +136,126 @@ export default function Products() {
           * { margin: 0; padding: 0; box-sizing: border-box; }
           body {
             margin: 0;
-            padding: 10px;
-            font-family: Arial, sans-serif;
+            padding: 8px;
+            font-family: 'Arial', sans-serif;
             background: white;
           }
           .tags-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            max-width: 800px;
-            margin: 0 auto;
+            gap: 10px;
           }
           .tag {
-            width: 100%;
-            border: 2px solid #000;
-            padding: 15px;
+            width: 2in;
+            height: 3in;
+            border: 2px solid #1a1a1a;
+            padding: 10px;
             text-align: center;
             page-break-inside: avoid;
+            background: linear-gradient(135deg, #ffffff 0%, #f9f9f9 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+          }
+          .header {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 5px;
+          }
+          .company-name {
+            font-size: 8px;
+            font-weight: bold;
+            color: #e74c3c;
+            letter-spacing: 0.5px;
           }
           .brand {
-            font-size: 18px;
+            font-size: 12px;
             font-weight: bold;
-            margin-bottom: 5px;
-            color: #333;
+            margin-top: 3px;
+            color: #1a1a1a;
           }
           .product {
-            font-size: 14px;
-            font-weight: bold;
-            margin-bottom: 8px;
+            font-size: 10px;
+            font-weight: 600;
+            margin-bottom: 2px;
             color: #333;
+            line-height: 1.2;
           }
-          .details {
-            font-size: 11px;
-            margin-bottom: 8px;
-            color: #666;
-            line-height: 1.3;
+          .size-color {
+            background: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 2px;
+            font-size: 8px;
+            font-weight: bold;
+            margin-bottom: 5px;
           }
-          .barcode {
-            margin: 8px 0;
-            text-align: center;
-          }
-          .barcode svg {
-            max-width: 100%;
-            height: 40px;
+          .price-section {
+            border-top: 2px solid #e74c3c;
+            border-bottom: 2px solid #e74c3c;
+            padding: 5px 0;
+            margin: 5px 0;
           }
           .price {
             font-size: 26px;
             font-weight: bold;
             color: #e74c3c;
-            margin: 8px 0;
+            line-height: 1;
+          }
+          .mrp-label {
+            font-size: 6px;
+            color: #999;
+            margin-top: 1px;
+          }
+          .barcode {
+            margin: 5px 0;
+            text-align: center;
+          }
+          .barcode svg {
+            max-width: 100%;
+            height: 28px;
           }
           .sku {
-            font-size: 9px;
-            color: #999;
-            margin-top: 5px;
+            font-size: 6px;
+            color: #666;
+            margin-bottom: 3px;
             font-family: monospace;
+            font-weight: bold;
+          }
+          .footer {
+            border-top: 1px solid #ddd;
+            padding-top: 3px;
+            font-size: 5px;
+            color: #888;
+            line-height: 1.1;
+          }
+          .email {
+            color: #0066cc;
+            font-weight: bold;
+            margin-bottom: 1px;
           }
 
           @media print {
             * { margin: 0 !important; padding: 0 !important; }
             body {
               margin: 0 !important;
-              padding: 0 !important;
+              padding: 4px !important;
               background: white !important;
             }
             .tags-grid {
               display: grid;
               grid-template-columns: repeat(2, 1fr);
-              gap: 10px !important;
+              gap: 8px !important;
               margin: 0 !important;
               padding: 0 !important;
             }
             .tag {
               margin: 0 !important;
               page-break-inside: avoid !important;
-              border: 2px solid #000 !important;
-              padding: 12px !important;
+              width: 2in !important;
+              height: 3in !important;
+              border: 2px solid #1a1a1a !important;
+              padding: 8px !important;
+              box-shadow: none !important;
             }
           }
         </style>
@@ -223,16 +267,33 @@ export default function Products() {
     items.forEach((item, index) => {
       html += `
         <div class="tag">
-          <div class="brand">${item.brand}</div>
+          <div class="header">
+            <div class="company-name">VILOOM</div>
+            <div class="brand">${item.brand}</div>
+          </div>
+
           <div class="product">${item.productName}</div>
-          <div class="details">
+
+          <div class="size-color">
             Size: ${item.size} | Color: ${item.color}
           </div>
+
+          <div class="price-section">
+            <div class="price">₹${item.price.toFixed(2)}</div>
+            <div class="mrp-label">MRP</div>
+          </div>
+
           <div class="barcode">
             <svg id="barcode-${index}"></svg>
           </div>
-          <div class="price">₹${item.price.toFixed(2)}</div>
-          <div class="sku">SKU: ${item.sku}</div>
+
+          <div class="sku">${item.sku}</div>
+
+          <div class="footer">
+            <div class="email">Support@Viloom.in</div>
+            <div>Puzzle Theory Pvt Ltd</div>
+            <div>Mandsaur, MP 458001</div>
+          </div>
         </div>
       `;
     });
@@ -247,13 +308,13 @@ export default function Products() {
             if (svg) {
               JsBarcode(svg, item.barcode, {
                 format: "CODE128",
-                width: 2,
-                height: 40,
-                margin: 5
+                width: 1.5,
+                height: 28,
+                margin: 2
               });
             }
           });
-          setTimeout(() => window.print(), 300);
+          setTimeout(() => window.print(), 400);
         <\/script>
       </body>
       </html>
@@ -330,102 +391,171 @@ export default function Products() {
           * { margin: 0; padding: 0; box-sizing: border-box; }
           body {
             margin: 0;
-            padding: 10px;
-            font-family: Arial, sans-serif;
+            padding: 8px;
+            font-family: 'Arial', sans-serif;
             background: white;
           }
           .tag {
-            width: 350px;
-            border: 2px solid #000;
-            padding: 15px;
+            width: 2in;
+            height: 3in;
+            border: 2px solid #1a1a1a;
+            padding: 12px;
             text-align: center;
             page-break-inside: avoid;
             margin: 0 auto;
+            background: linear-gradient(135deg, #ffffff 0%, #f9f9f9 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+          }
+          .header {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 6px;
+            margin-bottom: 6px;
+          }
+          .company-name {
+            font-size: 9px;
+            font-weight: bold;
+            color: #e74c3c;
+            letter-spacing: 0.5px;
           }
           .brand {
-            font-size: 20px;
+            font-size: 13px;
             font-weight: bold;
-            margin-bottom: 5px;
-            color: #333;
+            margin-top: 4px;
+            color: #1a1a1a;
           }
           .product {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 8px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 3px;
             color: #333;
+            line-height: 1.2;
           }
           .details {
-            font-size: 12px;
-            margin-bottom: 10px;
-            color: #666;
-            line-height: 1.4;
+            font-size: 9px;
+            margin-bottom: 6px;
+            color: #555;
+            line-height: 1.3;
+          }
+          .size-color {
+            background: #f0f0f0;
+            padding: 3px 5px;
+            border-radius: 3px;
+            font-size: 8px;
+            font-weight: bold;
+            margin-bottom: 6px;
+          }
+          .price-section {
+            border-top: 2px solid #e74c3c;
+            border-bottom: 2px solid #e74c3c;
+            padding: 6px 0;
+            margin: 6px 0;
+          }
+          .price {
+            font-size: 28px;
+            font-weight: bold;
+            color: #e74c3c;
+            line-height: 1;
+          }
+          .mrp-label {
+            font-size: 7px;
+            color: #999;
+            margin-top: 2px;
           }
           .barcode {
-            margin: 10px 0;
+            margin: 6px 0;
             text-align: center;
-            padding: 5px 0;
+            padding: 3px 0;
           }
           .barcode svg {
             max-width: 100%;
-            height: 45px;
-          }
-          .price {
-            font-size: 32px;
-            font-weight: bold;
-            color: #e74c3c;
-            margin: 8px 0;
+            height: 30px;
           }
           .sku {
-            font-size: 10px;
-            color: #999;
-            margin-top: 8px;
+            font-size: 7px;
+            color: #666;
+            margin-bottom: 3px;
             font-family: monospace;
+            font-weight: bold;
+          }
+          .footer {
+            border-top: 1px solid #ddd;
+            padding-top: 3px;
+            font-size: 6px;
+            color: #888;
+            line-height: 1.2;
+          }
+          .email {
+            color: #0066cc;
+            font-weight: bold;
+            margin-bottom: 1px;
           }
 
           @media print {
             * { margin: 0 !important; padding: 0 !important; }
             body {
               margin: 0 !important;
-              padding: 0 !important;
+              padding: 4px !important;
               background: white !important;
             }
             .tag {
               margin: 0 !important;
               page-break-after: avoid;
-              width: 350px !important;
-              border: 2px solid #000 !important;
-              padding: 15px !important;
+              width: 2in !important;
+              height: 3in !important;
+              border: 2px solid #1a1a1a !important;
+              padding: 10px !important;
+              box-shadow: none !important;
             }
           }
         </style>
       </head>
       <body>
         <div class="tag">
-          <div class="brand">${product.brand}</div>
+          <div class="header">
+            <div class="company-name">VILOOM</div>
+            <div class="brand">${product.brand}</div>
+          </div>
+
           <div class="product">${product.name}</div>
-          <div class="details">
+
+          <div class="size-color">
             Size: ${variant.size} | Color: ${variant.color}
           </div>
+
+          <div class="price-section">
+            <div class="price">₹${variant.price.toFixed(2)}</div>
+            <div class="mrp-label">MRP</div>
+          </div>
+
           <div class="barcode">
             <svg id="barcode"></svg>
           </div>
-          <div class="price">₹${variant.price.toFixed(2)}</div>
-          <div class="sku">SKU: ${variant.sku}</div>
+
+          <div class="sku">${variant.sku}</div>
+
+          <div class="footer">
+            <div class="email">Support@Viloom.in</div>
+            <div>Puzzle Theory Pvt Ltd</div>
+            <div>Mandsaur, MP 458001</div>
+          </div>
         </div>
+
         <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"><\/script>
         <script>
           const barcode = document.getElementById('barcode');
           if (barcode) {
             JsBarcode(barcode, "${variant.barcode}", {
               format: "CODE128",
-              width: 2,
-              height: 45,
-              margin: 5
+              width: 1.5,
+              height: 30,
+              margin: 2
             });
           }
           setTimeout(() => {
             window.print();
-          }, 200);
+          }, 300);
         <\/script>
       </body>
       </html>
