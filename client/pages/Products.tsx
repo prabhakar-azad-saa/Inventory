@@ -132,105 +132,118 @@ export default function Products() {
       <html>
       <head>
         <title>Print Price Tags</title>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
         <style>
           * { margin: 0; padding: 0; box-sizing: border-box; }
           body {
             margin: 0;
-            padding: 8px;
-            font-family: 'Arial', sans-serif;
+            padding: 5px;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
             background: white;
           }
           .tags-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
+            gap: 8px;
           }
           .tag {
             width: 2in;
             height: 3in;
-            border: 2px solid #1a1a1a;
+            border: 1px solid #2c3e50;
             padding: 10px;
             text-align: center;
             page-break-inside: avoid;
-            background: linear-gradient(135deg, #ffffff 0%, #f9f9f9 100%);
+            background: linear-gradient(180deg, #ffffff 0%, #fafbfc 100%);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
           }
           .header {
-            border-bottom: 1px solid #ddd;
+            border-bottom: 2px solid #1a472a;
             padding-bottom: 5px;
             margin-bottom: 5px;
           }
           .company-name {
-            font-size: 8px;
-            font-weight: bold;
-            color: #e74c3c;
-            letter-spacing: 0.5px;
+            font-size: 9px;
+            font-weight: 800;
+            color: #1a472a;
+            letter-spacing: 0.8px;
+            font-family: 'Poppins', sans-serif;
           }
           .brand {
             font-size: 12px;
-            font-weight: bold;
-            margin-top: 3px;
-            color: #1a1a1a;
+            font-weight: 700;
+            margin-top: 2px;
+            color: #1a472a;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 0.2px;
           }
           .product {
             font-size: 10px;
             font-weight: 600;
             margin-bottom: 2px;
-            color: #333;
+            color: #2c3e50;
             line-height: 1.2;
           }
           .size-color {
-            background: #f0f0f0;
-            padding: 2px 4px;
+            background: linear-gradient(135deg, #1a472a 0%, #2a5a3a 100%);
+            color: white;
+            padding: 3px 5px;
             border-radius: 2px;
-            font-size: 8px;
-            font-weight: bold;
+            font-size: 7px;
+            font-weight: 700;
             margin-bottom: 5px;
+            letter-spacing: 0.2px;
           }
           .price-section {
-            border-top: 2px solid #e74c3c;
-            border-bottom: 2px solid #e74c3c;
-            padding: 5px 0;
+            background: linear-gradient(135deg, #1a472a 0%, #2a5a3a 100%);
+            border-radius: 3px;
+            padding: 6px 0;
             margin: 5px 0;
           }
           .price {
-            font-size: 26px;
-            font-weight: bold;
-            color: #e74c3c;
+            font-size: 28px;
+            font-weight: 800;
+            color: #fff;
             line-height: 1;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: -0.3px;
           }
           .mrp-label {
-            font-size: 6px;
-            color: #999;
+            font-size: 5.5px;
+            color: rgba(255,255,255,0.9);
             margin-top: 1px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
           }
           .barcode {
-            margin: 5px 0;
+            margin: 4px 0;
             text-align: center;
           }
           .barcode svg {
             max-width: 100%;
-            height: 28px;
+            height: 30px;
           }
           .sku {
             font-size: 6px;
-            color: #666;
-            margin-bottom: 3px;
-            font-family: monospace;
-            font-weight: bold;
+            color: #5a5a5a;
+            margin-bottom: 2px;
+            font-family: 'Courier New', monospace;
+            font-weight: 700;
+            letter-spacing: 0.1px;
           }
           .footer {
-            border-top: 1px solid #ddd;
-            padding-top: 3px;
-            font-size: 5px;
-            color: #888;
-            line-height: 1.1;
+            border-top: 1px solid #d0d0d0;
+            padding-top: 2px;
+            font-size: 4.5px;
+            color: #666;
+            line-height: 1.2;
+            font-weight: 500;
           }
           .email {
-            color: #0066cc;
-            font-weight: bold;
+            color: #1a472a;
+            font-weight: 700;
             margin-bottom: 1px;
           }
 
@@ -238,13 +251,13 @@ export default function Products() {
             * { margin: 0 !important; padding: 0 !important; }
             body {
               margin: 0 !important;
-              padding: 4px !important;
+              padding: 2px !important;
               background: white !important;
             }
             .tags-grid {
               display: grid;
               grid-template-columns: repeat(2, 1fr);
-              gap: 8px !important;
+              gap: 6px !important;
               margin: 0 !important;
               padding: 0 !important;
             }
@@ -253,8 +266,8 @@ export default function Products() {
               page-break-inside: avoid !important;
               width: 2in !important;
               height: 3in !important;
-              border: 2px solid #1a1a1a !important;
-              padding: 8px !important;
+              border: 1px solid #2c3e50 !important;
+              padding: 9px !important;
               box-shadow: none !important;
             }
           }
@@ -275,12 +288,12 @@ export default function Products() {
           <div class="product">${item.productName}</div>
 
           <div class="size-color">
-            Size: ${item.size} | Color: ${item.color}
+            Size: ${item.size} | ${item.color}
           </div>
 
           <div class="price-section">
             <div class="price">₹${item.price.toFixed(2)}</div>
-            <div class="mrp-label">MRP</div>
+            <div class="mrp-label">MRP (Inclusive of Tax)</div>
           </div>
 
           <div class="barcode">
@@ -309,7 +322,7 @@ export default function Products() {
               JsBarcode(svg, item.barcode, {
                 format: "CODE128",
                 width: 1.5,
-                height: 28,
+                height: 30,
                 margin: 2
               });
             }
@@ -387,108 +400,116 @@ export default function Products() {
       <html>
       <head>
         <title>Price Tag</title>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
         <style>
           * { margin: 0; padding: 0; box-sizing: border-box; }
           body {
             margin: 0;
-            padding: 8px;
-            font-family: 'Arial', sans-serif;
+            padding: 6px;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
             background: white;
           }
           .tag {
             width: 2in;
             height: 3in;
-            border: 2px solid #1a1a1a;
-            padding: 12px;
+            border: 1px solid #2c3e50;
+            padding: 11px;
             text-align: center;
             page-break-inside: avoid;
             margin: 0 auto;
-            background: linear-gradient(135deg, #ffffff 0%, #f9f9f9 100%);
+            background: linear-gradient(180deg, #ffffff 0%, #fafbfc 100%);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
           }
           .header {
-            border-bottom: 1px solid #ddd;
+            border-bottom: 2px solid #1a472a;
             padding-bottom: 6px;
             margin-bottom: 6px;
           }
           .company-name {
-            font-size: 9px;
-            font-weight: bold;
-            color: #e74c3c;
-            letter-spacing: 0.5px;
+            font-size: 10px;
+            font-weight: 800;
+            color: #1a472a;
+            letter-spacing: 1px;
+            font-family: 'Poppins', sans-serif;
           }
           .brand {
             font-size: 13px;
-            font-weight: bold;
-            margin-top: 4px;
-            color: #1a1a1a;
+            font-weight: 700;
+            margin-top: 3px;
+            color: #1a472a;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 0.3px;
           }
           .product {
             font-size: 11px;
             font-weight: 600;
             margin-bottom: 3px;
-            color: #333;
-            line-height: 1.2;
-          }
-          .details {
-            font-size: 9px;
-            margin-bottom: 6px;
-            color: #555;
+            color: #2c3e50;
             line-height: 1.3;
+            letter-spacing: 0.2px;
           }
           .size-color {
-            background: #f0f0f0;
-            padding: 3px 5px;
-            border-radius: 3px;
-            font-size: 8px;
-            font-weight: bold;
+            background: linear-gradient(135deg, #1a472a 0%, #2a5a3a 100%);
+            color: white;
+            padding: 4px 6px;
+            border-radius: 2px;
+            font-size: 7.5px;
+            font-weight: 700;
             margin-bottom: 6px;
+            letter-spacing: 0.3px;
           }
           .price-section {
-            border-top: 2px solid #e74c3c;
-            border-bottom: 2px solid #e74c3c;
-            padding: 6px 0;
+            background: linear-gradient(135deg, #1a472a 0%, #2a5a3a 100%);
+            border-radius: 3px;
+            padding: 7px 0;
             margin: 6px 0;
           }
           .price {
-            font-size: 28px;
-            font-weight: bold;
-            color: #e74c3c;
+            font-size: 30px;
+            font-weight: 800;
+            color: #fff;
             line-height: 1;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: -0.5px;
           }
           .mrp-label {
-            font-size: 7px;
-            color: #999;
+            font-size: 6px;
+            color: rgba(255,255,255,0.9);
             margin-top: 2px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
           }
           .barcode {
-            margin: 6px 0;
+            margin: 5px 0;
             text-align: center;
-            padding: 3px 0;
+            padding: 2px 0;
           }
           .barcode svg {
             max-width: 100%;
-            height: 30px;
+            height: 32px;
           }
           .sku {
-            font-size: 7px;
-            color: #666;
+            font-size: 6.5px;
+            color: #5a5a5a;
             margin-bottom: 3px;
-            font-family: monospace;
-            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            font-weight: 700;
+            letter-spacing: 0.2px;
           }
           .footer {
-            border-top: 1px solid #ddd;
+            border-top: 1px solid #d0d0d0;
             padding-top: 3px;
-            font-size: 6px;
-            color: #888;
-            line-height: 1.2;
+            font-size: 5px;
+            color: #666;
+            line-height: 1.3;
+            font-weight: 500;
           }
           .email {
-            color: #0066cc;
-            font-weight: bold;
+            color: #1a472a;
+            font-weight: 700;
             margin-bottom: 1px;
           }
 
@@ -496,7 +517,7 @@ export default function Products() {
             * { margin: 0 !important; padding: 0 !important; }
             body {
               margin: 0 !important;
-              padding: 4px !important;
+              padding: 3px !important;
               background: white !important;
             }
             .tag {
@@ -504,7 +525,7 @@ export default function Products() {
               page-break-after: avoid;
               width: 2in !important;
               height: 3in !important;
-              border: 2px solid #1a1a1a !important;
+              border: 1px solid #2c3e50 !important;
               padding: 10px !important;
               box-shadow: none !important;
             }
@@ -521,12 +542,12 @@ export default function Products() {
           <div class="product">${product.name}</div>
 
           <div class="size-color">
-            Size: ${variant.size} | Color: ${variant.color}
+            Size: ${variant.size} | ${variant.color}
           </div>
 
           <div class="price-section">
             <div class="price">₹${variant.price.toFixed(2)}</div>
-            <div class="mrp-label">MRP</div>
+            <div class="mrp-label">MRP (Inclusive of Tax)</div>
           </div>
 
           <div class="barcode">
@@ -549,7 +570,7 @@ export default function Products() {
             JsBarcode(barcode, "${variant.barcode}", {
               format: "CODE128",
               width: 1.5,
-              height: 30,
+              height: 32,
               margin: 2
             });
           }
