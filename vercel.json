@@ -1,7 +1,7 @@
 {
   "outputDirectory": "dist/spa",
   "framework": "vite",
-  "installCommand": "corepack prepare pnpm@10.14.0 --activate && pnpm install --frozen-lockfile",
+  "installCommand": "npm install -g pnpm@10.14.0 && pnpm install --frozen-lockfile",
   "buildCommand": "pnpm build:client",
   "functions": {
     "api/index.ts": {
