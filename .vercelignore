@@ -1,0 +1,12 @@
+.git
+.gitignore
+README.md
+node_modules
+.env.local
+.env.*.local
+pnpm-lock.yaml
+.DS_Store
+dist
+.next
+.vercel
+coverage
