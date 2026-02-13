@@ -133,27 +133,86 @@ export default function Products() {
       <head>
         <title>Print Price Tags</title>
         <style>
-          body { margin: 0; padding: 20px; font-family: Arial, sans-serif; }
-          .page { page-break-after: always; }
-          .tags-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
-          .tag { 
-            width: 350px; 
-            border: 1px solid #ddd; 
-            padding: 15px; 
+          * { margin: 0; padding: 0; box-sizing: border-box; }
+          body {
+            margin: 0;
+            padding: 10px;
+            font-family: Arial, sans-serif;
+            background: white;
+          }
+          .tags-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            max-width: 800px;
+            margin: 0 auto;
+          }
+          .tag {
+            width: 100%;
+            border: 2px solid #000;
+            padding: 15px;
             text-align: center;
             page-break-inside: avoid;
           }
-          .brand { font-size: 18px; font-weight: bold; margin-bottom: 8px; }
-          .product { font-size: 14px; font-weight: bold; margin-bottom: 8px; }
-          .details { font-size: 12px; margin-bottom: 10px; color: #666; }
-          .barcode { margin: 10px 0; text-align: center; }
-          .barcode svg { max-width: 100%; height: 40px; }
-          .price { font-size: 28px; font-weight: bold; color: #e74c3c; margin: 10px 0; }
-          .sku { font-size: 10px; color: #999; margin-top: 8px; }
-          @media print { 
-            body { padding: 0; }
-            .tags-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-            .tag { page-break-inside: avoid; }
+          .brand {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+          }
+          .product {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+          }
+          .details {
+            font-size: 11px;
+            margin-bottom: 8px;
+            color: #666;
+            line-height: 1.3;
+          }
+          .barcode {
+            margin: 8px 0;
+            text-align: center;
+          }
+          .barcode svg {
+            max-width: 100%;
+            height: 40px;
+          }
+          .price {
+            font-size: 26px;
+            font-weight: bold;
+            color: #e74c3c;
+            margin: 8px 0;
+          }
+          .sku {
+            font-size: 9px;
+            color: #999;
+            margin-top: 5px;
+            font-family: monospace;
+          }
+
+          @media print {
+            * { margin: 0 !important; padding: 0 !important; }
+            body {
+              margin: 0 !important;
+              padding: 0 !important;
+              background: white !important;
+            }
+            .tags-grid {
+              display: grid;
+              grid-template-columns: repeat(2, 1fr);
+              gap: 10px !important;
+              margin: 0 !important;
+              padding: 0 !important;
+            }
+            .tag {
+              margin: 0 !important;
+              page-break-inside: avoid !important;
+              border: 2px solid #000 !important;
+              padding: 12px !important;
+            }
           }
         </style>
       </head>
@@ -186,10 +245,15 @@ export default function Products() {
           items.forEach((item, index) => {
             const svg = document.getElementById('barcode-' + index);
             if (svg) {
-              JsBarcode(svg, item.barcode, { format: "CODE128", width: 2, height: 40 });
+              JsBarcode(svg, item.barcode, {
+                format: "CODE128",
+                width: 2,
+                height: 40,
+                margin: 5
+              });
             }
           });
-          setTimeout(() => window.print(), 500);
+          setTimeout(() => window.print(), 300);
         <\/script>
       </body>
       </html>
@@ -263,15 +327,76 @@ export default function Products() {
       <head>
         <title>Price Tag</title>
         <style>
-          body { margin: 0; padding: 20px; font-family: Arial, sans-serif; }
-          .tag { width: 400px; border: 1px solid #000; padding: 20px; text-align: center; }
-          .brand { font-size: 24px; font-weight: bold; margin-bottom: 10px; }
-          .product { font-size: 18px; font-weight: bold; margin-bottom: 10px; }
-          .details { font-size: 14px; margin-bottom: 15px; }
-          .barcode { margin: 20px 0; }
-          .price { font-size: 36px; font-weight: bold; color: #e74c3c; margin: 20px 0; }
-          .sku { font-size: 12px; margin-top: 10px; }
-          @media print { body { padding: 0; } }
+          * { margin: 0; padding: 0; box-sizing: border-box; }
+          body {
+            margin: 0;
+            padding: 10px;
+            font-family: Arial, sans-serif;
+            background: white;
+          }
+          .tag {
+            width: 350px;
+            border: 2px solid #000;
+            padding: 15px;
+            text-align: center;
+            page-break-inside: avoid;
+            margin: 0 auto;
+          }
+          .brand {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+          }
+          .product {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+          }
+          .details {
+            font-size: 12px;
+            margin-bottom: 10px;
+            color: #666;
+            line-height: 1.4;
+          }
+          .barcode {
+            margin: 10px 0;
+            text-align: center;
+            padding: 5px 0;
+          }
+          .barcode svg {
+            max-width: 100%;
+            height: 45px;
+          }
+          .price {
+            font-size: 32px;
+            font-weight: bold;
+            color: #e74c3c;
+            margin: 8px 0;
+          }
+          .sku {
+            font-size: 10px;
+            color: #999;
+            margin-top: 8px;
+            font-family: monospace;
+          }
+
+          @media print {
+            * { margin: 0 !important; padding: 0 !important; }
+            body {
+              margin: 0 !important;
+              padding: 0 !important;
+              background: white !important;
+            }
+            .tag {
+              margin: 0 !important;
+              page-break-after: avoid;
+              width: 350px !important;
+              border: 2px solid #000 !important;
+              padding: 15px !important;
+            }
+          }
         </style>
       </head>
       <body>
@@ -289,8 +414,18 @@ export default function Products() {
         </div>
         <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"><\/script>
         <script>
-          JsBarcode("#barcode", "${variant.barcode}", { format: "CODE128", width: 2, height: 50 });
-          window.print();
+          const barcode = document.getElementById('barcode');
+          if (barcode) {
+            JsBarcode(barcode, "${variant.barcode}", {
+              format: "CODE128",
+              width: 2,
+              height: 45,
+              margin: 5
+            });
+          }
+          setTimeout(() => {
+            window.print();
+          }, 200);
         <\/script>
       </body>
       </html>
