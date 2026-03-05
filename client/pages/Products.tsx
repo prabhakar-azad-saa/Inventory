@@ -783,6 +783,360 @@ setTimeout(() => window.print(), 400);
     //   </body>
     //   </html>
     // `;
+    //     const html = `
+    // <!DOCTYPE html>
+    // <html>
+    // <head>
+    // <title>VILOOM Tag</title>
+
+    // <style>
+    // @page {
+    //   size: 2in 3in;
+    //   margin: 0;
+    // }
+
+    // html, body {
+    //   margin: 0;
+    //   padding: 0;
+    // }
+    //   @media print {
+
+    //   html, body {
+    //     margin: 0;
+    //     padding: 0;
+    //     height: fit-content;
+    //     width: fit-content;
+    //   }
+
+    //   body {
+    //     display: inline-block;
+    //   }
+
+    // }
+
+    // .tag {
+    //   width: 2in;
+    //   height: 3in;
+    //   padding: 12px;
+    //   box-sizing: border-box;
+    //   border: 2px solid #000;
+    //   display: flex;
+    //   flex-direction: column;
+    //   justify-content: space-between;
+
+    //   transform: rotate(90deg) translateY(-100%);
+    //   transform-origin: top left;
+    // }
+    // .top {
+    //   text-align: center;
+    // }
+
+    // .logo {
+    //   font-size: 18px;
+    //   font-weight: 900;
+    //   letter-spacing: 4px;
+    // }
+
+    // .brand {
+    //   font-size: 9px;
+    //   margin-top: 4px;
+    //   letter-spacing: 2px;
+    // }
+
+    // .product-name {
+    //   margin-top: 10px;
+    //   font-size: 12px;
+    //   font-weight: bold;
+    // }
+
+    // .meta {
+    //   margin-top: 6px;
+    //   font-size: 9px;
+    //   line-height: 1.4;
+    // }
+
+    // .price-section {
+    //   text-align: center;
+    //   margin: 10px 0;
+    // }
+
+    // .price {
+    //   font-size: 26px;
+    //   font-weight: 700;
+    // }
+
+    // .tax {
+    //   font-size: 7px;
+    //   margin-top: 3px;
+    // }
+
+    // .barcode {
+    //   text-align: center;
+    //   margin-top: 6px;
+    // }
+
+    // .barcode svg {
+    //   width: 100%;
+    //   height: 48px;
+    // }
+
+    // .sku {
+    //   text-align: center;
+    //   font-size: 8px;
+    //   margin-top: 4px;
+    //   letter-spacing: 1px;
+    // }
+
+    // .footer {
+    //   border-top: 1px solid #000;
+    //   padding-top: 6px;
+    //   font-size: 7px;
+    //   text-align: center;
+    //   line-height: 1.3;
+    // }
+
+    // .label {
+    //   font-weight: bold;
+    // }
+
+    // </style>
+    // </head>
+
+    // <body>
+
+    // <div class="tag">
+
+    //   <div class="top">
+    //     <div class="logo">VILOOM</div>
+    //     <div class="brand">${product.brand}</div>
+
+    //     <div class="product-name">${product.name}</div>
+
+    //     <div class="meta">
+    //       <div><span class="label">Category:</span> ${product.category}</div>
+    //       <div><span class="label">Size:</span> ${variant.size}</div>
+    //       <div><span class="label">Color:</span> ${variant.color}</div>
+    //     </div>
+    //   </div>
+
+    //   <div>
+    //     <div class="price-section">
+    //       <div class="price">₹${variant.price.toFixed(2)}</div>
+    //       <div class="tax">MRP (Inclusive of all taxes)</div>
+    //     </div>
+
+    //     <div class="barcode">
+    //       <svg id="barcode"></svg>
+    //     </div>
+
+    //     <div class="sku"><span class="label">SKU:</span> ${variant.sku}</div>
+    //   </div>
+
+    //   <div class="footer">
+    //     Puzzle Theory Pvt Ltd<br/>
+    //     Mandsaur, MP - 458001<br/>
+    //     Support@Viloom.in
+    //   </div>
+
+    // </div>
+
+    // <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"><\/script>
+
+    // <script>
+    //   JsBarcode("#barcode", "${variant.barcode}", {
+    //     format: "CODE128",
+    //     width: 3,
+    //     height: 48,
+    //     displayValue: false,
+    //     margin: 0
+    //   });
+
+    //   setTimeout(() => window.print(), 300);
+    // <\/script>
+
+    // </body>
+    // </html>
+    // `;
+
+    //     const html = `
+    // <!DOCTYPE html>
+    // <html>
+    // <head>
+    // <title>VILOOM Tag</title>
+
+    // <style>
+    // @page {
+    //   size: 2in 3in;
+    //   margin: 0;
+    // }
+
+    // * {
+    //   margin: 0;
+    //   padding: 0;
+    //   box-sizing: border-box;
+    // }
+
+    // html, body {
+    //   margin: 0;
+    //   padding: 0;
+    //   width: 2in;
+    //   height: 3in;
+    //   overflow: hidden;
+    // }
+
+    // @media print {
+    //   html, body {
+    //     width: 2in;
+    //     height: 3in;
+    //     margin: 0;
+    //     padding: 0;
+    //   }
+
+    //   body {
+    //     display: flex;
+    //     align-items: center;
+    //     justify-content: center;
+    //   }
+    // }
+
+    // .tag {
+    //   width: 2in;
+    //   height: 3in;
+    //   padding: 12px;
+    //   box-sizing: border-box;
+    //   border: 2px solid #000;
+    //   display: flex;
+    //   flex-direction: column;
+    //   justify-content: space-between;
+    //   background: white;
+    // }
+
+    // .top {
+    //   text-align: center;
+    // }
+
+    // .logo {
+    //   font-size: 18px;
+    //   font-weight: 900;
+    //   letter-spacing: 4px;
+    // }
+
+    // .brand {
+    //   font-size: 9px;
+    //   margin-top: 4px;
+    //   letter-spacing: 2px;
+    // }
+
+    // .product-name {
+    //   margin-top: 10px;
+    //   font-size: 12px;
+    //   font-weight: bold;
+    // }
+
+    // .meta {
+    //   margin-top: 6px;
+    //   font-size: 9px;
+    //   line-height: 1.4;
+    // }
+
+    // .price-section {
+    //   text-align: center;
+    //   margin: 10px 0;
+    // }
+
+    // .price {
+    //   font-size: 26px;
+    //   font-weight: 700;
+    // }
+
+    // .tax {
+    //   font-size: 7px;
+    //   margin-top: 3px;
+    // }
+
+    // .barcode {
+    //   text-align: center;
+    //   margin-top: 6px;
+    // }
+
+    // .barcode svg {
+    //   width: 100%;
+    //   height: 48px;
+    //   display: block;
+    // }
+
+    // .sku {
+    //   text-align: center;
+    //   font-size: 8px;
+    //   margin-top: 4px;
+    //   letter-spacing: 1px;
+    // }
+
+    // .footer {
+    //   border-top: 1px solid #000;
+    //   padding-top: 6px;
+    //   font-size: 7px;
+    //   text-align: center;
+    //   line-height: 1.3;
+    // }
+
+    // .label {
+    //   font-weight: bold;
+    // }
+    // </style>
+    // </head>
+
+    // <body>
+    // <div class="tag">
+    //   <div class="top">
+    //     <div class="logo">VILOOM</div>
+    //     <div class="brand">${product.brand}</div>
+    //     <div class="product-name">${product.name}</div>
+    //     <div class="meta">
+    //       <div><span class="label">Category:</span> ${product.category}</div>
+    //       <div><span class="label">Size:</span> ${variant.size}</div>
+    //       <div><span class="label">Color:</span> ${variant.color}</div>
+    //     </div>
+    //   </div>
+
+    //   <div>
+    //     <div class="price-section">
+    //       <div class="price">₹${variant.price.toFixed(2)}</div>
+    //       <div class="tax">MRP (Inclusive of all taxes)</div>
+    //     </div>
+
+    //     <div class="barcode">
+    //       <svg id="barcode"></svg>
+    //     </div>
+
+    //     <div class="sku"><span class="label">SKU:</span> ${variant.sku}</div>
+    //   </div>
+
+    //   <div class="footer">
+    //     Puzzle Theory Pvt Ltd<br/>
+    //     Mandsaur, MP - 458001<br/>
+    //     Support@Viloom.in
+    //   </div>
+    // </div>
+
+    // <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"><\/script>
+    // <script>
+    //   window.onload = function() {
+    //     JsBarcode("#barcode", "${variant.barcode}", {
+    //       format: "CODE128",
+    //       width: 3,
+    //       height: 48,
+    //       displayValue: false,
+    //       margin: 0
+    //     });
+
+    //     // Print immediately without timeout
+    //     window.print();
+    //   };
+    // <\/script>
+    // </body>
+    // </html>
+    // `;
     const html = `
 <!DOCTYPE html>
 <html>
@@ -791,26 +1145,64 @@ setTimeout(() => window.print(), 400);
 
 <style>
 @page {
-  size: 2in 3in;
+  size: 3in 2in;  /* Swapped dimensions for landscape */
   margin: 0;
 }
 
-body {
-  width: 2in;
-  height: 3in;
+* {
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 3in;
+  height: 2in;
+  overflow: hidden;
+}
+
+@media print {
+  html, body {
+    width: 3in;
+    height: 2in;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .tag {
-  width: 2in;
-  height: 3in;
+  width: 2in;   /* Original width */
+  height: 3in;  /* Original height */
   padding: 12px;
   box-sizing: border-box;
   border: 2px solid #000;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  background: white;
+  
+  /* Rotate to horizontal */
+  transform: rotate(90deg) translateY(-100%);
+  transform-origin: top left;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Container to hold the rotated tag properly */
+.rotate-container {
+  position: relative;
+  width: 3in;
+  height: 2in;
+  overflow: hidden;
 }
 
 .top {
@@ -864,6 +1256,7 @@ body {
 .barcode svg {
   width: 100%;
   height: 48px;
+  display: block;
 }
 
 .sku {
@@ -884,62 +1277,59 @@ body {
 .label {
   font-weight: bold;
 }
-
 </style>
 </head>
 
 <body>
-
-<div class="tag">
-
-  <div class="top">
-    <div class="logo">VILOOM</div>
-    <div class="brand">${product.brand}</div>
-
-    <div class="product-name">${product.name}</div>
-
-    <div class="meta">
-      <div><span class="label">Category:</span> ${product.category}</div>
-      <div><span class="label">Size:</span> ${variant.size}</div>
-      <div><span class="label">Color:</span> ${variant.color}</div>
-    </div>
-  </div>
-
-  <div>
-    <div class="price-section">
-      <div class="price">₹${variant.price.toFixed(2)}</div>
-      <div class="tax">MRP (Inclusive of all taxes)</div>
+<div class="rotate-container">
+  <div class="tag">
+    <div class="top">
+      <div class="logo">VILOOM</div>
+      <div class="brand">${product.brand}</div>
+      <div class="product-name">${product.name}</div>
+      <div class="meta">
+        <div><span class="label">Category:</span> ${product.category}</div>
+        <div><span class="label">Size:</span> ${variant.size}</div>
+        <div><span class="label">Color:</span> ${variant.color}</div>
+      </div>
     </div>
 
-    <div class="barcode">
-      <svg id="barcode"></svg>
+    <div>
+      <div class="price-section">
+        <div class="price">₹${variant.price.toFixed(2)}</div>
+        <div class="tax">MRP (Inclusive of all taxes)</div>
+      </div>
+
+      <div class="barcode">
+        <svg id="barcode"></svg>
+      </div>
+
+      <div class="sku"><span class="label">SKU:</span> ${variant.sku}</div>
     </div>
 
-    <div class="sku"><span class="label">SKU:</span> ${variant.sku}</div>
+    <div class="footer">
+      Puzzle Theory Pvt Ltd<br/>
+      Mandsaur, MP - 458001<br/>
+      Support@Viloom.in
+    </div>
   </div>
-
-  <div class="footer">
-    Puzzle Theory Pvt Ltd<br/>
-    Mandsaur, MP - 458001<br/>
-    Support@Viloom.in
-  </div>
-
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"><\/script>
-
 <script>
-  JsBarcode("#barcode", "${variant.barcode}", {
-    format: "CODE128",
-    width: 3,
-    height: 48,
-    displayValue: false,
-    margin: 0
-  });
-
-  setTimeout(() => window.print(), 300);
+  window.onload = function() {
+    JsBarcode("#barcode", "${variant.barcode}", {
+      format: "CODE128",
+      width: 3,
+      height: 48,
+      displayValue: false,
+      margin: 0
+    });
+    
+    // Small delay to ensure barcode renders
+    setTimeout(() => window.print(), 300);
+  };
 <\/script>
-
 </body>
 </html>
 `;
