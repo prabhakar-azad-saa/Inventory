@@ -1361,7 +1361,7 @@ html, body {
   height: 3in;  /* Original height */
   padding: 12px;
   box-sizing: border-box;
-  border: 2px solid #000;
+  /* border: 2px solid #000;*/
   display: flex;
   flex-direction: column;
   justify-content: space-between;
