@@ -367,6 +367,164 @@ export default function Products() {
     const printWindow = window.open("", "_blank");
     if (!printWindow) return;
 
+    //     let html = `
+    // <!DOCTYPE html>
+    // <html>
+    // <head>
+    // <title>VILOOM Labels</title>
+
+    // <style>
+    // @page {
+    //   size: 2in 3in;
+    //   margin: 0;
+    // }
+
+    // html, body {
+    //   margin: 0;
+    //   padding: 0;
+    // }
+
+    // .page {
+    //   width: 2in;
+    //   height: 3in;
+    //   box-sizing: border-box;
+    //   border: 2px solid #000;
+    //   padding: 12px;
+    //   display: flex;
+    //   flex-direction: column;
+    //   justify-content: space-between;
+    //   page-break-after: always;
+    //   font-family: Arial, Helvetica, sans-serif;
+    // }
+
+    // .logo {
+    //   text-align: center;
+    //   font-size: 18px;
+    //   font-weight: 900;
+    //   letter-spacing: 4px;
+    // }
+
+    // .brand {
+    //   text-align: center;
+    //   font-size: 9px;
+    //   margin-top: 4px;
+    // }
+
+    // .product-name {
+    //   margin-top: 8px;
+    //   font-size: 11px;
+    //   font-weight: bold;
+    //   text-align: center;
+    // }
+
+    // .meta {
+    //   margin-top: 5px;
+    //   font-size: 9px;
+    //   line-height: 1.4;
+    //   text-align: center;
+    // }
+
+    // .price {
+    //   text-align: center;
+    //   font-size: 26px;
+    //   font-weight: 700;
+    //   margin: 8px 0;
+    // }
+
+    // .tax {
+    //   text-align: center;
+    //   font-size: 7px;
+    // }
+
+    // .barcode {
+    //   text-align: center;
+    //   margin-top: 6px;
+    // }
+
+    // .barcode svg {
+    //   width: 100%;
+    //   height: 48px;
+    // }
+
+    // .sku {
+    //   text-align: center;
+    //   font-size: 8px;
+    //   margin-top: 4px;
+    // }
+
+    // .footer {
+    //   border-top: 1px solid #000;
+    //   padding-top: 6px;
+    //   font-size: 7px;
+    //   text-align: center;
+    //   line-height: 1.3;
+    // }
+    // </style>
+
+    // </head>
+    // <body>
+    // `;
+
+    //     items.forEach((item, index) => {
+    //       html += `
+    //     <div class="page">
+
+    //       <div>
+    //         <div class="logo">VILOOM</div>
+    //         <div class="brand">${item.brand}</div>
+
+    //         <div class="product-name">${item.productName}</div>
+
+    //         <div class="meta">
+    //           Category: ${products.find((p) => p.id === item.productId)?.category || ""}
+    //           <br/>
+    //           Size: ${item.size} | Color: ${item.color}
+    //         </div>
+    //       </div>
+
+    //       <div>
+    //         <div class="price">₹${item.price.toFixed(2)}</div>
+    //         <div class="tax">MRP (Inclusive of all taxes)</div>
+
+    //         <div class="barcode">
+    //           <svg id="barcode-${index}"></svg>
+    //         </div>
+
+    //         <div class="sku">SKU: ${item.sku}</div>
+    //       </div>
+
+    //       <div class="footer">
+    //         Puzzle Theory Pvt Ltd<br/>
+    //         Mandsaur, MP - 458001<br/>
+    //         Support@Viloom.in
+    //       </div>
+
+    //     </div>
+    //     `;
+    //     });
+
+    //     html += `
+    // <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"><\/script>
+
+    // <script>
+    // const items = ${JSON.stringify(items)};
+
+    // items.forEach((item, index) => {
+    //   JsBarcode("#barcode-" + index, item.barcode, {
+    //     format: "CODE128",
+    //     width: 3,
+    //     height: 48,
+    //     displayValue: false,
+    //     margin: 0
+    //   });
+    // });
+
+    // setTimeout(() => window.print(), 400);
+    // <\/script>
+
+    // </body>
+    // </html>
+    // `;
     let html = `
 <!DOCTYPE html>
 <html>
@@ -382,19 +540,22 @@ export default function Products() {
 html, body {
   margin: 0;
   padding: 0;
+  width: 2in;
+  height: 3in;
 }
 
 .page {
   width: 2in;
   height: 3in;
   box-sizing: border-box;
-  border: 2px solid #000;
+  /* border: 2px solid #000; */
   padding: 12px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  page-break-after: always;
   font-family: Arial, Helvetica, sans-serif;
+  background: white;
+  page-break-after: always;
 }
 
 .logo {
@@ -444,6 +605,7 @@ html, body {
 .barcode svg {
   width: 100%;
   height: 48px;
+  display: block;
 }
 
 .sku {
@@ -467,40 +629,38 @@ html, body {
 
     items.forEach((item, index) => {
       html += `
-    <div class="page">
+<div class="page">
+  <div>
+    <div class="logo">VILOOM</div>
+    <div class="brand">${item.brand}</div>
 
-      <div>
-        <div class="logo">VILOOM</div>
-        <div class="brand">${item.brand}</div>
+    <div class="product-name">${item.productName}</div>
 
-        <div class="product-name">${item.productName}</div>
-
-        <div class="meta">
-          Category: ${products.find((p) => p.id === item.productId)?.category || ""}
-          <br/>
-          Size: ${item.size} | Color: ${item.color}
-        </div>
-      </div>
-
-      <div>
-        <div class="price">₹${item.price.toFixed(2)}</div>
-        <div class="tax">MRP (Inclusive of all taxes)</div>
-
-        <div class="barcode">
-          <svg id="barcode-${index}"></svg>
-        </div>
-
-        <div class="sku">SKU: ${item.sku}</div>
-      </div>
-
-      <div class="footer">
-        Puzzle Theory Pvt Ltd<br/>
-        Mandsaur, MP - 458001<br/>
-        Support@Viloom.in
-      </div>
-
+    <div class="meta">
+      Category: ${products.find((p) => p.id === item.productId)?.category || ""}
+      <br/>
+      Size: ${item.size} | Color: ${item.color}
     </div>
-    `;
+  </div>
+
+  <div>
+    <div class="price">₹${item.price.toFixed(2)}</div>
+    <div class="tax">MRP (Inclusive of all taxes)</div>
+
+    <div class="barcode">
+      <svg id="barcode-${index}"></svg>
+    </div>
+
+    <div class="sku">SKU: ${item.sku}</div>
+  </div>
+
+  <div class="footer">
+    Puzzle Theory Pvt Ltd<br/>
+    Mandsaur, MP - 458001<br/>
+    Support@Viloom.in
+  </div>
+</div>
+`;
     });
 
     html += `
