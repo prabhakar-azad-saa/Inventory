@@ -1145,7 +1145,7 @@ setTimeout(() => window.print(), 400);
 
 <style>
 @page {
-  size: 3in 2in;  /* Swapped dimensions for landscape */
+  size: 2in 3in;  /* Portrait orientation to avoid cutting */
   margin: 0;
 }
 
@@ -1158,29 +1158,27 @@ setTimeout(() => window.print(), 400);
 html, body {
   margin: 0;
   padding: 0;
-  width: 3in;
-  height: 2in;
+  width: 2in;
+  height: 3in;
   overflow: hidden;
 }
 
 @media print {
   html, body {
-    width: 3in;
-    height: 2in;
+    width: 2in;
+    height: 3in;
     margin: 0;
     padding: 0;
   }
   
   body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: block;
   }
 }
 
 .tag {
-  width: 2in;   /* Original width */
-  height: 3in;  /* Original height */
+  width: 2in;
+  height: 3in;
   padding: 12px;
   box-sizing: border-box;
   border: 2px solid #000;
@@ -1188,21 +1186,6 @@ html, body {
   flex-direction: column;
   justify-content: space-between;
   background: white;
-  
-  /* Rotate to horizontal */
-  transform: rotate(90deg) translateY(-100%);
-  transform-origin: top left;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-/* Container to hold the rotated tag properly */
-.rotate-container {
-  position: relative;
-  width: 3in;
-  height: 2in;
-  overflow: hidden;
 }
 
 .top {
@@ -1281,37 +1264,35 @@ html, body {
 </head>
 
 <body>
-<div class="rotate-container">
-  <div class="tag">
-    <div class="top">
-      <div class="logo">VILOOM</div>
-      <div class="brand">${product.brand}</div>
-      <div class="product-name">${product.name}</div>
-      <div class="meta">
-        <div><span class="label">Category:</span> ${product.category}</div>
-        <div><span class="label">Size:</span> ${variant.size}</div>
-        <div><span class="label">Color:</span> ${variant.color}</div>
-      </div>
+<div class="tag">
+  <div class="top">
+    <div class="logo">VILOOM</div>
+    <div class="brand">${product.brand}</div>
+    <div class="product-name">${product.name}</div>
+    <div class="meta">
+      <div><span class="label">Category:</span> ${product.category}</div>
+      <div><span class="label">Size:</span> ${variant.size}</div>
+      <div><span class="label">Color:</span> ${variant.color}</div>
+    </div>
+  </div>
+
+  <div>
+    <div class="price-section">
+      <div class="price">₹${variant.price.toFixed(2)}</div>
+      <div class="tax">MRP (Inclusive of all taxes)</div>
     </div>
 
-    <div>
-      <div class="price-section">
-        <div class="price">₹${variant.price.toFixed(2)}</div>
-        <div class="tax">MRP (Inclusive of all taxes)</div>
-      </div>
-
-      <div class="barcode">
-        <svg id="barcode"></svg>
-      </div>
-
-      <div class="sku"><span class="label">SKU:</span> ${variant.sku}</div>
+    <div class="barcode">
+      <svg id="barcode"></svg>
     </div>
 
-    <div class="footer">
-      Puzzle Theory Pvt Ltd<br/>
-      Mandsaur, MP - 458001<br/>
-      Support@Viloom.in
-    </div>
+    <div class="sku"><span class="label">SKU:</span> ${variant.sku}</div>
+  </div>
+
+  <div class="footer">
+    Puzzle Theory Pvt Ltd<br/>
+    Mandsaur, MP - 458001<br/>
+    Support@Viloom.in
   </div>
 </div>
 
